@@ -5,7 +5,7 @@ import urllib
 ##  listens to FSM server on incoming port
 import http.server
 import socketserver
-##  watches the directory for changes, specifically new .csv files
+##  watches the directory for changes, specifically new .log files
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 ##  Logging
