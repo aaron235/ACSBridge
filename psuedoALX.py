@@ -62,7 +62,7 @@ def main():
 	except (KeyboardInterrupt, SystemExit):
 		print( "Keyboard interrupt recieved. Shutting down server." )
 		globalVars['LOG'].info( "Keyboard interrupt recieved. Shutting down server." )
-		httpThread.join()
+		httpThread.exit()
 
 
 if __name__ == '__main__':
