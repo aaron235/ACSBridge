@@ -11,3 +11,4 @@ Currently working:
 Still needs to be implemented:
 * Log-file watching
 * Emailing error reports
+* Mapping between FSM field names and CCure field names
