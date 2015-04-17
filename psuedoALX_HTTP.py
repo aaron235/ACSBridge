@@ -11,14 +11,21 @@ from psuedoALX_csv import writeCSV
 from psuedoALX_config import config
 
 class Handler( http.server.SimpleHTTPRequestHandler ):
+	"""
+	A child of http.server.SimpleHTTPRequestHandler. Simply listens for
+	GET/POST requests, and on recieve, it extracts the paramaters and
+	writes them to a .csv file in the specified directory.
+	"""
 	def do_POST( self ):
 		print( "POST request to " + self.path )
+		logging.info( "POST request to " + self.path )
 		##  Parses out the request into a dictionary
 		params = parsePOST( self.path )
 		##  Writes the request paramaters to a .csv file
 		writeCSV( params, config['CCURE_DIR'] )
 	def do_GET( self ):
 		print( "GET request to " + self.path )
+		logging.info( "GET request to " + self.path )
 		##  Parses out the request into a dictionary
 		params = parsePOST( self.path )
 		##  Writes the request paramaters to a .csv file
