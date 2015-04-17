@@ -10,8 +10,6 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 ##  Logging
 import logging
-##  Keeps daemon alive; provides names for CSV files
-import time
 
 ##  Functions for handling/parsing HTTP requests
 from psuedoALX_HTTP import Handler
@@ -31,11 +29,13 @@ def main():
 	print( "Logging to '%s'..." % config['LOG_PATH'] )
 
 	try:
-		server = socketserver.TCPServer((config['EXTERNAL_SERVER'], config['PORT_IN']), Handler)
-		print( "HTTP listener started." )
+		server = socketserver.TCPServer( ( config['EXTERNAL_SERVER'], config['PORT_IN'] ), Handler )
+		print( "HTTP listener started on " + str( server.server_address ) )
+		logging.info( "HTTP listener started on " + str( server.server_address ) )
 		server.serve_forever()
 	except KeyboardInterrupt:
 		print( "Keyboard interrupt recieved. Shutting down server." )
+		logging.info( "Keyboard interrupt recieved. Shutting down server." )
 		server.socket.close()
 
 if __name__ == '__main__':
