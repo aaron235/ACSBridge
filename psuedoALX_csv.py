@@ -2,7 +2,7 @@
 import time
 
 ##  Configuration options
-import psuedoALX_config
+from psuedoALX_global import globalVars
 
 def writeCSV( params, writeDir ):
 	"""
@@ -10,8 +10,10 @@ def writeCSV( params, writeDir ):
 	and formats params' keys into one row of CSV, and the values into another row of
 	CSV. It then writes them to the directory, in a .csv file named with the date.
 	"""
-	csv = open( writeDir + time.strftime( '%Y-%m-%d_%H:%M:%S' ) + ".csv", 'w' )
+	nowTime = time.strftime( '%Y-%m-%d_%H:%M:%S' )
+	csv = open( writeDir + nowTime + ".csv", 'w' )
 	csv.write( ','.join( params.keys() ) )
 	csv.write( '\n' )
 	csv.write( ','.join( params.values() ) )
 	csv.close()
+	globalVars['LOG'].info( "Wrote CSV file " + writeDir + nowTime + ".csv" )

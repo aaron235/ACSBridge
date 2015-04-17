@@ -8,7 +8,7 @@ import socketserver
 from psuedoALX_csv import writeCSV
 
 ##  Configuration options
-from psuedoALX_config import config
+from psuedoALX_global import globalVars
 
 class Handler( http.server.SimpleHTTPRequestHandler ):
 	"""
@@ -18,18 +18,18 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
 	"""
 	def do_POST( self ):
 		print( "POST request to " + self.path )
-		logging.info( "POST request to " + self.path )
+		globalVars['LOG'].info( "POST request to " + self.path )
 		##  Parses out the request into a dictionary
 		params = parsePOST( self.path )
 		##  Writes the request paramaters to a .csv file
-		writeCSV( params, config['CCURE_DIR'] )
+		writeCSV( params, globalVars['CCURE_DIR'] )
 	def do_GET( self ):
 		print( "GET request to " + self.path )
-		logging.info( "GET request to " + self.path )
+		globalVars['LOG'].info( "GET request to " + self.path )
 		##  Parses out the request into a dictionary
 		params = parsePOST( self.path )
 		##  Writes the request paramaters to a .csv file
-		writeCSV( params, config['CCURE_DIR'] )
+		writeCSV( params, globalVars['CCURE_DIR'] )
 
 
 def parsePOST( request ):

@@ -21,7 +21,7 @@ import logging
 from psuedoALX_HTTP import Handler
 
 ##  Configuration options
-from psuedoALX_config import config
+from psuedoALX_global import globalVars
 
 
 ############
@@ -29,24 +29,26 @@ from psuedoALX_config import config
 ############
 
 
+
 def main():
-	##  Set up logging
-	logging.basicConfig( filename=config['LOG_PATH'], level=logging.DEBUG,
+	logging.basicConfig( filename=globalVars['LOG_PATH'], level=logging.DEBUG,
 		format='%(asctime)s\t%(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S' )
-	print( "Logging to '%s'..." % config['LOG_PATH'] )
+	globalVars['LOG'] = logging.getLogger( 'main' )
+	
+	print( "Logging to '%s'..." % globalVars['LOG_PATH'] )
 
 	try:
 		##  set up a socketserver on the configured address running a Handler to handle GET/POST
-		server = socketserver.TCPServer( ( config['EXTERNAL_SERVER'], config['PORT_IN'] ), Handler )
+		server = socketserver.TCPServer( ( globalVars['EXTERNAL_SERVER'], globalVars['PORT_IN'] ), Handler )
 
 		print( "HTTP listener started on {server}:{port}".format( server=server.server_address[0], port=server.server_address[1] ) )
-		logging.info( "HTTP listener started on {server}:{port}".format( server=server.server_address[0], port=server.server_address[1] ) )
+		globalVars['LOG'].info( "HTTP listener started on {server}:{port}".format( server=server.server_address[0], port=server.server_address[1] ) )
 		##  continue serving until a keyboard interrupt is recieved
 		server.serve_forever()
 
 	except (KeyboardInterrupt, SystemExit):
 		print( "Keyboard interrupt recieved. Shutting down server." )
-		logging.info( "Keyboard interrupt recieved. Shutting down server." )
+		globalVars['LOG'].info( "Keyboard interrupt recieved. Shutting down server." )
 		server.socket.close()
 
 if __name__ == '__main__':
