@@ -5,10 +5,10 @@ import urllib
 import http.server
 import socketserver
 ##  Functions for handling CSV files
-from psuedoALX_csv import writeCSV
+from ACSBridge_csv import writeCSV
 
 ##  Configuration options
-from psuedoALX_global import globalVars
+from ACSBridge_global import globalVars
 
 class Handler( http.server.SimpleHTTPRequestHandler ):
 	"""

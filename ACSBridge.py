@@ -19,10 +19,10 @@ from watchdog.events import FileSystemEventHandler
 import logging
 
 ##  Functions for handling/parsing HTTP requests
-from psuedoALX_http import Handler
+from ACSBridge_http import Handler
 
 ##  Configuration options
-from psuedoALX_global import globalVars
+from ACSBridge_global import globalVars
 
 
 ############

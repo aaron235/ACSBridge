@@ -2,7 +2,7 @@
 import time
 
 ##  Configuration options
-from psuedoALX_global import globalVars
+from ACSBridge_global import globalVars
 
 def writeCSV( params, writeDir ):
 	"""

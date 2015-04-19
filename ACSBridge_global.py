@@ -8,5 +8,5 @@ globalVars = dict(
     ##  directory to write CCure CSV files
     CCURE_DIR = './',
     ##  Logging
-    LOG_PATH = './psuedoALX.log'
+    LOG_PATH = './ACSBridge.log'
 )
