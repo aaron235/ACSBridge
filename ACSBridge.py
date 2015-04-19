@@ -24,6 +24,8 @@ from ACSBridge_http import Handler
 ##  Configuration options
 from ACSBridge_global import globalVars
 
+##  Threading, for simultaneous file watching and socket serving
+from multiprocessing import Process
 
 ############
 ##  MAIN  ##
@@ -53,7 +55,7 @@ def main():
 	print( "Logging to '%s'..." % globalVars['LOG_PATH'] )
 
 	##  Set up the HTTP server to run in another thread
-	httpThread = threading.Thread( target=httpServe, daemon=True )
+	httpThread = Process( target=httpServe )
 	httpThread.start()
 
 	try:
@@ -62,7 +64,7 @@ def main():
 	except (KeyboardInterrupt, SystemExit):
 		print( "Keyboard interrupt recieved. Shutting down server." )
 		globalVars['LOG'].info( "Keyboard interrupt recieved. Shutting down server." )
-		httpThread.exit()
+		httpThread.terminate()
 
 
 if __name__ == '__main__':
