@@ -48,16 +48,18 @@ def watchFiles():
 
 
 def main():
+	##  Set up logging
 	logging.basicConfig( filename=globalVars['LOG_PATH'], level=logging.DEBUG,
 		format='%(asctime)s\t%(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S' )
 	globalVars['LOG'] = logging.getLogger( 'main' )
 
 	print( "Logging to '%s'..." % globalVars['LOG_PATH'] )
 
-	##  Set up the HTTP server to run in another thread
+	##  Set up the HTTP server to run in another thread so it doesn't block main
 	httpThread = Process( target=httpServe )
 	httpThread.start()
 
+	##  Keep program running until the user kills it
 	try:
 		while True:
 			time.sleep(1)
@@ -67,5 +69,6 @@ def main():
 		httpThread.terminate()
 
 
+##  run main
 if __name__ == '__main__':
 	main()
