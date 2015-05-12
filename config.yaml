@@ -1,0 +1,13 @@
+PORT_IN: 8080
+PORT_OUT: 8081
+
+EXTERNAL_SERVER: "localhost"
+
+CCURE_DIR: "./"
+CCURE_LOG_PATTERN: ".+./log"
+
+SMTP_SERVER: "lol"
+SMTP_USER: "weeny"
+SMTP_PASS: "butts"
+
+LOG_FILE: "./ACSBridge.log"

@@ -1,72 +1,44 @@
 #!/usr/bin/env python
 
-##  Used for runing the HTTP server and the file watcher simultaneously
-import threading
-import time
+from ACSBridgeLib.HTTPListener import HTTPListenerProcess
+from ACSBridgeLib.DirWatcher import DirWatcherProcess
+import ACSBridgeLib.DirWatcher
 
-##  sends the request to the receiving server and parses the request from the sending server
-import urllib
+##  for loading configuration options
+import yaml
 
-##  listens to FSM server on incoming port
-import http.server
-import socketserver
-
-##  watches the directory for changes, specifically new .log files (not yet implemented)
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
-
-##  Logging
+##  for logging
 import logging
 
-##  Functions for handling/parsing HTTP requests
-from ACSBridge_http import Handler
-
-##  Configuration options
-from ACSBridge_global import globalVars
-
-##  Threading, for simultaneous file watching and socket serving
-from multiprocessing import Process
-
-############
-##  MAIN  ##
-############
-
-def httpServe():
-	##  set up a socketserver on the configured address running a Handler to handle GET/POST
-	server = socketserver.TCPServer( ( globalVars['EXTERNAL_SERVER'], globalVars['PORT_IN'] ), Handler )
-
-	print( "HTTP listener started on %s:%s" % server.server_address )
-	globalVars['LOG'].info( "HTTP listener started on %s:%s" % server.server_address )
-	##  continue serving until a keyboard interrupt is recieved
-	server.serve_forever()
-
-	#server.socket.close()
-
-
-def watchFiles():
-	return 0
-
+from multiprocessing import Queue
 
 def main():
+	##  load config:
+	f = open( 'config.yaml' )
+	config = yaml.safe_load( f )
+	f.close()
+
 	##  Set up logging
-	logging.basicConfig( filename=globalVars['LOG_PATH'], level=logging.DEBUG,
+	logging.basicConfig( filename=config['LOG_FILE'], level=logging.DEBUG,
 		format='%(asctime)s\t%(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S' )
-	globalVars['LOG'] = logging.getLogger( 'main' )
+	logger = logging.getLogger( 'main' )
 
-	print( "Logging to '%s'..." % globalVars['LOG_PATH'] )
+	##  Set up process for HTTP listener
+	HTTPQueue = Queue()
+	HTTPProcess = HTTPListenerProcess( HTTPQueue, logger, config['PORT_IN'], config['PORT_OUT'], config['CCURE_DIR'] )
 
-	##  Set up the HTTP server to run in another thread so it doesn't block main
-	httpThread = Process( target=httpServe )
-	httpThread.start()
+	HTTPProcess.run()
 
-	##  Keep program running until the user kills it
+	DirWatcherQueue = Queue()
+	DirWatcherProcess = DirWatcherProcess( DirWatcherQueue, logger, config['CCURE_DIR'], config['CCURE_LOG_PATTERN'],
+		config['SMTP_SERVER'], config['SMTP_USER'], config['SMTP_PASS'] )
+
 	try:
 		while True:
 			time.sleep(1)
 	except (KeyboardInterrupt, SystemExit):
-		print( "Keyboard interrupt recieved. Shutting down server." )
-		globalVars['LOG'].info( "Keyboard interrupt recieved. Shutting down server." )
-		httpThread.terminate()
+		logging.info( "Keyboard interrupt recieved. Shutting down server." )
+		HTTPQueue.put( 1 )
 
 
 ##  run main
