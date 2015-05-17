@@ -19,8 +19,10 @@ def main():
 	f.close()
 
 	##  Set up logging
-	logging.basicConfig( filename=config['LOG_FILE'], level=logging.DEBUG,
-		format='%(asctime)s\t%(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S' )
+	logging.basicConfig( filename=config['LOG_FILE'],
+						 level=logging.DEBUG,
+						 format='%(asctime)s\t%(levelname)s: %(message)s',
+						 datefmt='%Y-%m-%d %H:%M:%S' )
 	logger = logging.getLogger( 'main' )
 
 	##  Set up process for HTTP listener
