@@ -10,7 +10,12 @@ import smtplib
 from email.mime.text import MIMEText
 
 class DirWatcherProcess( multiprocessing.Process ):
-
+	"""
+	This class extends multiprocessing.Process, and when run, watches the specified directory
+	for new files that match the pattern (typically /.+\.log/). On write, it will detect if
+	the new file is a CCure error log, and if it is, it will send it as an email from the
+	configured address, to the configured address.
+	"""
 	def __init__( self, queue, logger, watchDir, watchPattern, smtpServer, smtpUser, smtpPass ):
 		self.queue = queue
 		self.logger = logger
@@ -21,5 +26,5 @@ class DirWatcherProcess( multiprocessing.Process ):
 		self.smtpPass = smtpPass
 
 ##	def run( self ):
-		fileWatcher = watchdog.Observer()
-		observer.schedule( function_handle, watchDir, recursive=False )
+##		fileWatcher = watchdog.Observer()
+##		observer.schedule( function_handle, watchDir, recursive=False )
