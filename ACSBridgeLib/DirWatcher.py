@@ -27,4 +27,14 @@ class DirWatcherProcess( multiprocessing.Process ):
 
 ##	def run( self ):
 ##		fileWatcher = watchdog.Observer()
-##		observer.schedule( function_handle, watchDir, recursive=False )
+##		observer.schedule( self.sendLog, self.watchDir, recursive=False )
+
+##	def setupMail( self ):
+##	"""
+##
+##  """
+
+##  def sendLog( self, logMessage ):
+##	"""
+##
+##	"""
