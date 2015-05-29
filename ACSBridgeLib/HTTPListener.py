@@ -24,7 +24,7 @@ class HTTPListenerProcess( multiprocessing.Process ):
 		self.writeDir = writeDir
 
 
-	def start( self ):
+	def run( self ):
 		handler = HTTPHandler
 		handler.setLogger( handler, self.logger )
 		handler.setWriteDir( handler, self.writeDir )
@@ -72,7 +72,10 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 		##  Writes the request paramaters to a .csv file
 		if self.isValidRequest( params ):
 			self.writeCSV( params )
-			self.send_response( 200, message=None )
+			self.send_response( 200 )
+			self.send_header('Content-type', 'text/html')
+        	self.end_headers()
+        	self.wfile.write('<html><body><pre>OK</pre></body></html>')
 		else:
 			logging.warning( "Invalid POST paramaters sent, ignoring request." )
 
@@ -87,7 +90,10 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 		##  Writes the request paramaters to a .csv file
 		if self.isValidRequest( params ):
 			self.writeCSV( params )
-			self.send_response( 200, message=None )
+			self.send_response( 200 )
+			self.send_header('Content-type', 'text/html')
+        	self.end_headers()
+        	self.wfile.write('<html><body><pre>OK</pre></body></html>')
 		else:
 			logging.warning( "Invalid GET paramaters sent, ignoring request." )
 

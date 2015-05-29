@@ -40,7 +40,7 @@ def main():
 	#HTTPQueue = Queue()
 	#HTTPProcess = HTTPListenerProcess( HTTPQueue, logger, config['PORT_IN'], config['PORT_OUT'], config['CCURE_DIR'] )
 	#HTTPProcess.daemon = True
-	#HTTPProcess.start()
+	#HTTPProcess.run()
 
 	DirWatcherQueue = Queue()
 	WatcherProcess = DirWatcherProcess( DirWatcherQueue, logger, config['CCURE_DIR'], config['CCURE_LOG_PATTERN'],
