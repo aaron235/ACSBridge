@@ -68,18 +68,28 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 		"""
 		self.logger.info( "POST request to " + self.path )
 		##  Parses out the request into a dictionary
-		params = parsePOST( self.path )
+		params = parseParams( self.path )
 		##  Writes the request paramaters to a .csv file
-		self.writeCSV( params )
-		self.send_response( 200 )
+		if self.isValidRequest( params ):
+			self.writeCSV( params )
+			self.send_response( 200, message=None )
+		else:
+			logging.warning( "Invalid POST paramaters sent, ignoring request." )
+
+	##	suppresses logging to the console; I've already got that covered
+	def log_message(self, format, *args):
+        return
 
 	def do_GET( self ):
 		self.logger.info( "GET request to " + self.path )
 		##  Parses out the request into a dictionary
-		params = self.parsePOST( self.path )
+		params = self.parseParams( self.path )
 		##  Writes the request paramaters to a .csv file
-		self.writeCSV( params )
-		self.send_response( 200 )
+		if self.isValidRequest( params ):
+			self.writeCSV( params )
+			self.send_response( 200, message=None )
+		else:
+			logging.warning( "Invalid GET paramaters sent, ignoring request." )
 
 
 	def writeCSV( self, params ):
@@ -94,7 +104,7 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 		csv.close()
 		self.logger.info( "Wrote CSV file " + self.writeDir + nowTime + ".csv" )
 
-	def parsePOST( self, request ):
+	def parseParams( self, request ):
 		"""
 		Accepts a string "request" that contains a URL with POST paramaters,
 		and returns a dictionary representing request's POST paramaters.
@@ -113,3 +123,16 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 			params[ urllib.parse.unquote( pairList[0] ) ] = urllib.parse.unquote( pairList[1] )
 
 		return params
+
+	def isValidRequest( self, params ):
+		"""
+		Returns True if the passed set is a set of request paramaters, otherwise
+		returns False.
+		"""
+		for item in params.keys():
+			if item == "":
+				return False
+		for item in params.values():
+			if item == "":
+				return False
+		return True
