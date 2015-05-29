@@ -24,7 +24,7 @@ class HTTPListenerProcess( multiprocessing.Process ):
 		self.writeDir = writeDir
 
 
-	def run( self ):
+	def start( self ):
 		handler = HTTPHandler
 		handler.setLogger( handler, self.logger )
 		handler.setWriteDir( handler, self.writeDir )

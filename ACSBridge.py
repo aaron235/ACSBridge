@@ -2,13 +2,15 @@
 
 from ACSBridgeLib.HTTPListener import HTTPListenerProcess
 from ACSBridgeLib.DirWatcher import DirWatcherProcess
-import ACSBridgeLib.DirWatcher
 
 ##  for loading configuration options
 import yaml
 
 ##  for logging
 import logging
+
+##  for looping
+import time
 
 from multiprocessing import Queue
 
@@ -35,21 +37,24 @@ def main():
 	logger.info( "Logging set up writing to " + config['LOG_FILE'] )
 
 	##  Set up process for HTTP listener
-	HTTPQueue = Queue()
-	HTTPProcess = HTTPListenerProcess( HTTPQueue, logger, config['PORT_IN'], config['PORT_OUT'], config['CCURE_DIR'] )
-
-	HTTPProcess.run()
+	#HTTPQueue = Queue()
+	#HTTPProcess = HTTPListenerProcess( HTTPQueue, logger, config['PORT_IN'], config['PORT_OUT'], config['CCURE_DIR'] )
+	#HTTPProcess.daemon = True
+	#HTTPProcess.start()
 
 	DirWatcherQueue = Queue()
-	DirWatcherProcess = DirWatcherProcess( DirWatcherQueue, logger, config['CCURE_DIR'], config['CCURE_LOG_PATTERN'],
-		config['SMTP_SERVER'], config['SMTP_USER'], config['SMTP_PASS'] )
+	WatcherProcess = DirWatcherProcess( DirWatcherQueue, logger, config['CCURE_DIR'], config['CCURE_LOG_PATTERN'],
+		config['SMTP_SERVER'], config['SMTP_USER'], config['SMTP_PASS'], config['MAIL_FROM'], config['MAIL_TO'] )
+	#DirWatcherProcess.daemon = True
+	WatcherProcess.run()
 
 	try:
 		while True:
 			time.sleep(1)
 	except (KeyboardInterrupt, SystemExit):
-		logging.info( "Keyboard interrupt recieved. Shutting down server." )
-		HTTPQueue.put( 1 )
+		logger.info( "Keyboard interrupt recieved. Shutting down server." )
+	#	HTTPQueue.put( 1 )
+		DirWatcherQueue.put( 1 )
 
 
 ##  run main

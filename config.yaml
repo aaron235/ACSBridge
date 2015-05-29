@@ -6,8 +6,10 @@ EXTERNAL_SERVER: "localhost"
 CCURE_DIR: "./"
 CCURE_LOG_PATTERN: ".+./log"
 
-SMTP_SERVER: "lol"
-SMTP_USER: "weeny"
-SMTP_PASS: "butts"
+SMTP_SERVER: "smtp.gmail.com:587"
+SMTP_USER: "ACSBridgeReporter"
+SMTP_PASS: "qmwnebrvt"
+MAIL_FROM: "ACSBridgeReporter@gmail.com"
+MAIL_TO: ["qwertyman159@gmail.com", "adler@fel.com"]
 
 LOG_FILE: "./ACSBridge.log"
