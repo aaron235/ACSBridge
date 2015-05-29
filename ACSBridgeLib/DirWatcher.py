@@ -25,14 +25,14 @@ class DirWatcherProcess( multiprocessing.Process ):
 		self.smtpUser = smtpUser
 		self.smtpPass = smtpPass
 
-##	def run( self ):
-##		fileWatcher = watchdog.Observer()
-##		observer.schedule( self.sendLog, self.watchDir, recursive=False )
+	def run( self ):
+		fileWatcher = watchdog.Observer()
+		fileWatcher.schedule( self.sendLog, self.watchDir, recursive=False )
 
 ##	def setupMail( self ):
 ##	"""
 ##
-##  """
+##	"""
 
 ##  def sendLog( self, logMessage ):
 ##	"""

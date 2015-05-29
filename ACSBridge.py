@@ -22,8 +22,17 @@ def main():
 	logging.basicConfig( filename=config['LOG_FILE'],
 						 level=logging.DEBUG,
 						 format='%(asctime)s\t%(levelname)s: %(message)s',
-						 datefmt='%Y-%m-%d %H:%M:%S' )
+						 datefmt='%Y-%m-%d %H:%M' )
 	logger = logging.getLogger( 'main' )
+	##  extra configuration to make some levels of logging print to the console
+	handler = logging.StreamHandler()
+	handler.setLevel( logging.INFO )
+	##  sets the format for console output (a little less wordy)
+	handler.setFormatter( logging.Formatter( '%(asctime)s\t%(levelname)s: %(message)s',
+	 										 '%m-%d %H:%M') )
+	logger.addHandler( handler )
+
+	logger.info( "Logging set up writing to " + config['LOG_FILE'] )
 
 	##  Set up process for HTTP listener
 	HTTPQueue = Queue()
