@@ -74,8 +74,8 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 			self.writeCSV( params )
 			self.send_response( 200 )
 			self.send_header('Content-type', 'text/html')
-        	self.end_headers()
-        	self.wfile.write('<html><body><pre>OK</pre></body></html>')
+			self.end_headers()
+			self.wfile.write('<html><body><pre>OK</pre></body></html>')
 		else:
 			logging.warning( "Invalid POST paramaters sent, ignoring request." )
 
@@ -92,8 +92,8 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 			self.writeCSV( params )
 			self.send_response( 200 )
 			self.send_header('Content-type', 'text/html')
-        	self.end_headers()
-        	self.wfile.write('<html><body><pre>OK</pre></body></html>')
+			self.end_headers()
+			self.wfile.write('<html><body><pre>OK</pre></body></html>')
 		else:
 			logging.warning( "Invalid GET paramaters sent, ignoring request." )
 

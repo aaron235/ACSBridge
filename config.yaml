@@ -10,6 +10,6 @@ SMTP_SERVER: "smtp.gmail.com:587"
 SMTP_USER: "ACSBridgeReporter"
 SMTP_PASS: "qmwnebrvt"
 MAIL_FROM: "ACSBridgeReporter@gmail.com"
-MAIL_TO: ["qwertyman159@gmail.com", "adler@fel.com"]
+MAIL_TO: ["qwertyman159@gmail.com"]
 
 LOG_FILE: "./ACSBridge.log"

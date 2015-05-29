@@ -30,7 +30,7 @@ def main():
 	handler = logging.StreamHandler()
 	handler.setLevel( logging.INFO )
 	##  sets the format for console output (a little less wordy)
-	handler.setFormatter( logging.Formatter( '%(asctime)s\t%(levelname)s: %(message)s',
+	handler.setFormatter( logging.Formatter( '%(asctime)s %(levelname)s: %(message)s',
 	 										 '%m-%d %H:%M') )
 	logger.addHandler( handler )
 
