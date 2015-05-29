@@ -78,7 +78,7 @@ class HTTPHandler( http.server.SimpleHTTPRequestHandler ):
 
 	##	suppresses logging to the console; I've already got that covered
 	def log_message(self, format, *args):
-			return None
+		return None
 
 	def do_GET( self ):
 		self.logger.info( "GET request to " + self.path )
