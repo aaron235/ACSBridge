@@ -2,7 +2,8 @@
 import multiprocessing
 
 ##	for watching the directory for new file writes
-import watchdog
+from watchdog.observers import Observer
+from watchdog.events import LoggingEventHandler
 
 ##	send emails
 import smtplib
@@ -30,13 +31,21 @@ class DirWatcherProcess( multiprocessing.Process ):
 
 
 	def run( self ):
-		##fileWatcher = watchdog.Observer()
-		##fileWatcher.schedule( self.sendLog, self.watchDir, recursive=False )
+		event_handler = LoggingEventHandler()
+		fileWatcher = Observer()
+		fileWatcher.schedule( event_handler, self.watchDir, recursive=False )
+		fileWatcher.start()
+
+		##  logWriteEvent.src_path == './log_file.log'
+
 		self.logger.info( "Directory watcher started, watching " + self.watchDir )
 
 		self.sendMail( """This is a test of the automated ACSBridge error reporter! An email from this
 			address will mean that something is wrong with the CCure server. This message,
 			however, is just a test of the SMTP mailing system. Have a nice day!""" )
+
+	def sendLog( self ):
+		return None
 
 	def sendMail( self, message ):
 		self.logger.info( "Sending email to configured addresses" )

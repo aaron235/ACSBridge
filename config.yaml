@@ -12,4 +12,4 @@ SMTP_PASS: "qmwnebrvt"
 MAIL_FROM: "ACSBridgeReporter@gmail.com"
 MAIL_TO: ["qwertyman159@gmail.com"]
 
-LOG_FILE: "./ACSBridge.log"
+LOG_FILE: "./log/ACSBridge.log"
